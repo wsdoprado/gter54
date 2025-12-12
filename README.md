@@ -35,7 +35,37 @@ NetBox → feature → development → main
 
 ## 📦 Instalação
 
-### 1. Instalar ContainerLab
+### 1. Instalar NetBox via Docker
+
+NetBox serve como a fonte da verdade (Network Source of Truth) para o projeto. A forma mais simples de instalar é usando o netbox-docker.
+
+```bash
+# Clonar o repositório netbox-docker
+git clone -b release https://github.com/netbox-community/netbox-docker.git
+cd netbox-docker
+
+# Criar arquivo de configuração
+tee docker-compose.override.yml <<EOF
+version: '3.4'
+services:
+  netbox:
+    ports:
+      - 8000:8080
+EOF
+
+# Iniciar o NetBox
+docker compose pull
+docker compose up -d
+
+# Criar superusuário (após containers iniciarem)
+docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
+```
+
+Acesse o NetBox em: http://localhost:8000
+
+**Documentação oficial:** https://github.com/netbox-community/netbox-docker
+
+### 2. Instalar ContainerLab
 
 ContainerLab é necessário para criar e gerenciar o ambiente de digital twin com dispositivos de rede.
 
@@ -49,7 +79,7 @@ containerlab version
 
 **Documentação oficial:** https://containerlab.dev/install/
 
-### 2. Instalar UV (Python Package Manager)
+### 3. Instalar UV (Python Package Manager)
 
 UV é um gerenciador de pacotes Python moderno e rápido, usado para gerenciar as dependências do projeto.
 
@@ -66,14 +96,14 @@ uv --version
 
 **Documentação oficial:** https://docs.astral.sh/uv/
 
-### 3. Clonar o Repositório
+### 4. Clonar o Repositório
 
 ```bash
 git clone https://github.com/wsdoprado/gter54.git
 cd gter54
 ```
 
-### 4. Instalar Dependências Python
+### 5. Instalar Dependências Python
 
 ```bash
 # Criar ambiente virtual e instalar dependências
@@ -90,14 +120,12 @@ uv sync
 1. Configure o NetBox com os dispositivos PE1, PE2, PE3
 2. Configure os templates de configuração para SR Linux
 3. Configure as interfaces e endereços IP conforme a topologia
+4. Adicione o Script Python do data-source e adicione os dados do GITEA no generate_intended.py
 
 ### Gitea
 
 1. Configure o repositório no Gitea
 2. Configure o Gitea Actions runner com acesso privilegiado ao Docker
-3. Configure os secrets necessários:
-   - `NETBOX_URL`: URL da API do NetBox
-   - `NETBOX_TOKEN`: Token de acesso ao NetBox
 
 ### Docker Compose (para Gitea Runner)
 
