@@ -1,0 +1,86 @@
+name: Network Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - development
+  push:
+    branches:
+      - development
+
+jobs:
+  test:
+    runs-on: native
+
+    steps:
+      # Limpa workspace antigo
+      - name: Clean up old workspace
+        run: rm -rf /tmp/gter54-dev-${{ github.run_id }}
+
+      # Clona repositório
+      - name: Checkout repository
+        run: |
+          git clone http://${{ secrets.GIT_USER }}:${{ secrets.GIT_TOKEN }}@192.168.246.95:3000/wprado/gter54.git /tmp/gter54-dev-${{ github.run_id }}
+          cd /tmp/gter54-dev-${{ github.run_id }}
+          git checkout ${{ github.ref_name }}
+
+      - name: Setup Python venv
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}
+          uv venv .venv
+          source .venv/bin/activate
+          uv sync
+
+      - name: Clean up old labs
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}
+          containerlab destroy --all -y || true
+          sleep 20
+
+      - name: Deploy lab
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}
+          containerlab deploy -t containerlab/gter54.clab.yaml --reconfigure
+          
+      - name: Wait for lab to be ready
+        run: sleep 30  
+
+      - name: Run Interface tests
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}/nuts
+          source ../.venv/bin/activate
+          pytest -vv tests/interfaces/ --tb=short 
+        continue-on-error: false
+
+      - name: Run ICMP tests
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}/nuts
+          source ../.venv/bin/activate
+          pytest -vv tests/icmp/ --tb=short 
+        continue-on-error: false
+
+      - name: Run OSPF tests
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}/nuts
+          source ../.venv/bin/activate
+          pytest -vv tests/ospf/ --tb=short
+        continue-on-error: false
+
+      #- name: Archive test reports
+      #  if: always()
+      #  run: |
+      #    mkdir -p /tmp/reports-${{ github.run_id }}
+      #    cp -r /tmp/gter54-dev-${{ github.run_id }}/nuts/reports/* /tmp/reports-${{ github.run_id }}/ || true
+
+      - name: Destroy lab
+        if: always()
+        run: |
+          cd /tmp/gter54-dev-${{ github.run_id }}
+          containerlab destroy --all -y || true
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf /tmp/gter54-dev-${{ github.run_id }}
+     #     rm -rf /tmp/reports-${{ github.run_id }}
