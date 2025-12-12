@@ -1,0 +1,10 @@
+---
+- test_module: custom_tests.sr_linux_ping_napalm
+  test_class: TestSRLinuxPing
+  test_data:
+    - host: SR3
+      destination: 3.3.3.3
+      count: 4
+      vrf: default
+      max_drop: 0
+      description: "SR3 - Loopback local"

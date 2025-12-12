@@ -1,0 +1,17 @@
+[project]
+name = "gter54"
+version = "0.1.0"
+description = "GTER54 - do GIT ao Router"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "napalm>=5.1.0",
+    "napalm-srl",
+    "nornir>=3.5.0",
+    "nornir-napalm>=0.5.0",
+    "nornir-netmiko>=1.0.1",
+    "nuts>=3.5.1",
+]
+
+[tool.uv.sources]
+napalm-srl = { git = "https://github.com/napalm-automation-community/napalm-srlinux.git" }

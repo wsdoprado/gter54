@@ -1,0 +1,65 @@
+---
+- test_class: TestNapalmInterfaces
+  test_data:
+    - host: SR1
+      name: ethernet-1/1
+      is_enabled: true
+      is_up: true
+      mtu: 9232
+      speed: 25.0
+
+    - host: SR1
+      name: ethernet-1/2
+      is_enabled: true
+      is_up: true
+      mtu: 9232
+      speed: 25.0
+
+    - host: SR1
+      name: mgmt0
+      is_enabled: true
+      is_up: true
+      mtu: 1514
+      speed: 1.0
+
+    - host: SR2
+      name: ethernet-1/1
+      is_enabled: true
+      is_up: true
+      mtu: 9232
+      speed: 25.0
+
+    - host: SR2
+      name: ethernet-1/2
+      is_enabled: true
+      is_up: true
+      mtu: 9232
+      speed: 25.0
+
+    - host: SR2
+      name: mgmt0
+      is_enabled: true
+      is_up: true
+      mtu: 1514
+      speed: 1.0
+
+    - host: SR3
+      name: ethernet-1/1
+      is_enabled: true
+      is_up: true
+      mtu: 9232
+      speed: 25.0
+
+    - host: SR3
+      name: ethernet-1/2
+      is_enabled: true
+      is_up: true
+      mtu: 9232
+      speed: 25.0
+
+    - host: SR3
+      name: mgmt0
+      is_enabled: true
+      is_up: true
+      mtu: 1514
+      speed: 1.0

@@ -1,0 +1,47 @@
+enter candidate
+set / network-instance default type default
+
+{%- for iface in device.interfaces.all() %}
+{%- set parts = iface.name.split('.') %}
+{%- if iface.name == "lo0.0" %}
+set / interface {{ parts[0] }} admin-state {{ 'enable' if iface.enabled else 'disable' }}
+
+{%- for ip in iface.ip_addresses.all() %}
+set / interface {{ parts[0] }} subinterface {{ parts[1] }} ipv4 address {{ ip.address }}
+
+{%- endfor %}
+set / interface {{ parts[0] }} subinterface {{ parts[1] }} ipv4 admin-state {{ 'enable' if iface.enabled else 'disable' }}
+set / network-instance default interface {{ iface.name }}
+
+{%- endif %}
+{%- endfor %}
+{%- for iface in device.interfaces.all() %}
+{%- set parts = iface.name.split('.') %}
+{%- if iface.name not in ["lo0.0", "mgmt0"] %}
+{%- if parts|length == 1 %}
+set / interface {{ iface.name }} admin-state {{ 'enable' if iface.enabled else 'disable' }}
+{%- elif parts|length == 2 %}
+{%- for ip in iface.ip_addresses.all() %}
+set / interface {{ parts[0] }} subinterface {{ parts[1] }} ipv4 address {{ ip.address }}
+{%- endfor %}
+set / interface {{ parts[0] }} subinterface {{ parts[1] }} ipv4 admin-state {{ 'enable' if iface.enabled else 'disable' }}
+set / network-instance default interface {{ parts[0] }}.{{ parts[1] }}
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+{%- set ctx = device.get_config_context() %}
+set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} admin-state {{ ctx.ospf.enabled }}
+set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} version {{ ctx.ospf.version }}
+set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} router-id {{ ctx.router_id }}
+{%- for iface in device.interfaces.all() %}
+{%- for tag in iface.tags.all() %}
+{%- if tag.name == "ospf" %}
+set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} area {{ ctx.ospf.area }} interface {{ iface.name }} admin-state enable
+set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} area {{ ctx.ospf.area }} interface {{ iface.name }} interface-type point-to-point
+{%- if iface.name == "lo0.0" %}
+set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} area {{ ctx.ospf.area }} interface {{ iface.name }} passive true
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+commit now

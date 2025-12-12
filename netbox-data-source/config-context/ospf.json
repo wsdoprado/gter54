@@ -1,0 +1,8 @@
+{
+  "ospf": {
+    "enabled": "enable",
+    "instance": "main",
+    "version": "ospf-v2",
+    "area": "0.0.0.0",
+  }
+}

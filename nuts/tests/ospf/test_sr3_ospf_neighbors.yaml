@@ -1,0 +1,14 @@
+---
+- test_module: custom_tests.sr_linux_ospf_napalm
+  test_class: TestSRLinuxOSPFNeighbor
+  test_data:
+    - host: SR3
+      instance: main
+      neighbor_id: 1.1.1.1
+      expected_interface: ethernet-1/1.0
+      description: "SR3 - Neighbor SR1"
+    - host: SR3
+      instance: main
+      neighbor_id: 2.2.2.2
+      expected_interface: ethernet-1/2.0
+      description: "SR3 - Neighbor SR2"

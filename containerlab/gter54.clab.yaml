@@ -1,0 +1,34 @@
+name: gter54
+
+mgmt:
+  network: gter54-mgmt
+  ipv4-subnet: 172.24.0.0/24
+  ipv6-subnet: 2001:db8:cafe::/64
+
+topology:
+  nodes:
+    sp1-srlinux-pe-101:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.7.2
+      mgmt-ipv4: 172.24.0.101
+      mgmt-ipv6: 2001:db8:cafe::101
+      startup-config: ../netbox-data-source/intended/sp1-srlinux-pe-101.cfg
+
+    sp2-srlinux-pe-102:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.7.2
+      mgmt-ipv4: 172.24.0.102
+      mgmt-ipv6: 2001:db8:cafe::102
+      startup-config: ../netbox-data-source/intended/sp2-srlinux-pe-102.cfg
+
+    sp3-srlinux-pe-103:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.7.2
+      mgmt-ipv4: 172.24.0.103
+      mgmt-ipv6: 2001:db8:cafe::103
+      startup-config: ../netbox-data-source/intended/sp3-srlinux-pe-103.cfg
+
+  links:
+    - endpoints: ["sp1-srlinux-pe-101:e1-1", "sp2-srlinux-pe-102:e1-1"]
+    - endpoints: ["sp1-srlinux-pe-101:e1-2", "sp3-srlinux-pe-103:e1-1"]
+    - endpoints: ["sp2-srlinux-pe-102:e1-2", "sp3-srlinux-pe-103:e1-2"]

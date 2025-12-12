@@ -1,0 +1,21 @@
+SR1:
+  hostname: 172.24.0.101
+  groups:
+    - pe
+  data:
+    tags:
+      - sp1
+SR2:
+  hostname: 172.24.0.102
+  groups:
+    - pe
+  data:
+    tags:
+      - sp2
+SR3:
+  hostname: 172.24.0.103
+  groups:
+    - pe
+  data:
+    tags:
+      - sp3

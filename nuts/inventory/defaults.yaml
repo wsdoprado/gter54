@@ -1,0 +1,13 @@
+---
+data:
+  connection_options:
+    napalm:
+      platform: eos
+      extras:
+        optional_args:
+          transport: http  # Use HTTP ao invés de HTTPS
+          port: 80
+    netmiko:
+      platform: eos
+      extras:
+        device_type: arista_eos
