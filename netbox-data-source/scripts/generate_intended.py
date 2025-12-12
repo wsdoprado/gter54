@@ -77,9 +77,9 @@ class RenderAndPushConfig(Script):
         self.log_info("=" * 70)
         
         # Configurações do Gitea
-        GITEA_URL = "http://192.168.246.95:3000"
+        GITEA_URL = "http://IP:3000"
         REPO = "wprado/gter54"
-        TOKEN = "ed2a927949252a4e9f91b18fab05f6315e3e1ee5"
+        TOKEN = "ABCDEFGH1231212832783728372873287827"
         BRANCH = "main"
         
         headers = {"Authorization": f"token {TOKEN}"}
