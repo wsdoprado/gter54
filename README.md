@@ -17,7 +17,7 @@ Este projeto demonstra práticas modernas de NetDevOps integrando:
 ```
 NetBox → feature → development → main
            ↓           ↓           ↓
-        Commit    CD Validation  Deploy
+        Commit    CI Validation  CD - Deploy
                   (Digital Twin) (Production)
 ```
 
