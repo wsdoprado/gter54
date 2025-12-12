@@ -1,4 +1,3 @@
-enter candidate
 set / network-instance default type default
 
 {%- for iface in device.interfaces.all() %}
@@ -44,4 +43,3 @@ set / network-instance default protocols ospf instance {{ ctx.ospf.instance }} a
 {%- endif %}
 {%- endfor %}
 {%- endfor %}
-commit now
