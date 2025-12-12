@@ -69,7 +69,7 @@ uv --version
 ### 3. Clonar o Repositório
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/wsdoprado/gter54.git
 cd gter54
 ```
 
