@@ -1,4 +1,4 @@
-# gter54 - Do Git ao Router
+# GTER54 - Do Git ao Router
 
 Projeto de automação de rede demonstrando um pipeline completo desde o Git até o deployment em roteadores, apresentado no GTER54.
 
